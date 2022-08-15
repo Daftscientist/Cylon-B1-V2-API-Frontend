@@ -48,7 +48,7 @@ export default function Dashboard(props) {
         async function fetchUserData() {
             setLoading(true)
             try {
-                const res = await fetch('https://raw.githubusercontent.com/Daftscientist/DisHook/main/hi.json');
+                const res = await fetch(`${process.env.BASE_API_ROUTE}user/fetch`, { method: "get", credentials: "include", });
                 const data = await res.json();
                 setUserData(data)
                 setLoading(false)
@@ -66,6 +66,7 @@ export default function Dashboard(props) {
 
     return (
       <section className="bg-gray-900 w-screen h-screen">
+        {JSON.stringify(userData)}
         <nav className="w-64 h-full p-2 fixed invisible md:visible" aria-label="Sidebar">
             <div className="py-4 h-full px-3 rounded-md bg-gray-800">
                 <div className="text-white font-bold text-xl text-center pb-2">
@@ -127,7 +128,6 @@ export default function Dashboard(props) {
             </div>
         </nav>
         <main className="flex flex-col flex-1 pl-2 pr-2 w-full  md:pl-64 pt-2">
-            <Nav path="Dashboard" page="dashboard" avatarImg={userData['avatar']}/>
             <StatBoxes/>
             <TokenTable/>
             <div className="flex flex-wrap w-page">
