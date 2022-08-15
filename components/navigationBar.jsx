@@ -32,7 +32,7 @@ const NavItemText = tw.div`
 `;
 
 export default function Nav(props) {
-    const [isActive, setActive] = useState(false);
+    const [isActive, setActive] = useState(true);
     const toggleClass = () => {
       setActive(!isActive);
     };
