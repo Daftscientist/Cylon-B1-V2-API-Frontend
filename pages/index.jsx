@@ -5,7 +5,8 @@ import LoginForm from '../components/forms/loginForm'
 
 export default function Home() {
   return (
-    <div className="flex flex-col items-center justify-center h-screen testy">
+    <div className="flex flex-col items-center justify-center h-screen testy text-white">
+      {process.env.BASE_API_ROUTE}
     </div>
 
   )
