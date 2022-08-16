@@ -49,7 +49,7 @@ function MyApp({ Component, pageProps }) {
         <title>Cylon.wtf - Home</title>    
       </Head>
       {authorized &&
-        <Component  {...pageProps} />
+        <Component {...pageProps} />
       }
       {!authorized &&
         <Loading/>

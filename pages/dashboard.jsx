@@ -12,7 +12,7 @@ import { useState, useEffect } from "react"
 import Loading from "../components/Loading.jsx";
 import FetchError from "../components/fetchError.jsx";
 import makeRequest from '../helpers/requests.js'
-
+import fetchUserData from '../services/user.service.js'
 
 const NavItem = tw.div`
     flex items-center p-2 
@@ -46,19 +46,15 @@ export default function Dashboard(props) {
     const [loadingError, setLoadingError] = useState(false)
 
     useEffect(() => {
-        async function fetchUserData() {
-            setLoading(true)
-            try {
-                const res = await makeRequest.get('user/fetch')
-                const data = res.data
-                setUserData(data)
-                setLoading(false)
-            } catch (error) {
-                setLoadingError(res.error.data)                
-                setLoading(false)
-            }
+        setLoading(true)
+        const result = fetchUserData();
+        if (!result.error) {
+            setUserData(result.data)
+            setLoading(false)
+        } else {
+            setLoadingError(result.error)
+            setLoading(false)
         }
-        fetchUserData();
     }, []);
 
     if (isLoading) return <Loading/>
@@ -68,6 +64,7 @@ export default function Dashboard(props) {
     return (
       <section className="bg-gray-900 w-screen h-screen">
         {JSON.stringify(userData)}
+        {props.test == "test"}
         <nav className="w-64 h-full p-2 fixed invisible md:visible" aria-label="Sidebar">
             <div className="py-4 h-full px-3 rounded-md bg-gray-800">
                 <div className="text-white font-bold text-xl text-center pb-2">
