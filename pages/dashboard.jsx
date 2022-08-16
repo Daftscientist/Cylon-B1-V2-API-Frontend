@@ -11,6 +11,7 @@ import axios from "axios";
 import { useState, useEffect } from "react"
 import Loading from "../components/Loading.jsx";
 import FetchError from "../components/fetchError.jsx";
+import makeRequest from '../helpers/requests.js'
 
 
 const NavItem = tw.div`
@@ -48,12 +49,12 @@ export default function Dashboard(props) {
         async function fetchUserData() {
             setLoading(true)
             try {
-                const res = await fetch(`${process.env.BASE_API_ROUTE}user/fetch`, { method: "get", credentials: "include", });
-                const data = await res.json();
+                const res = await makeRequest.get('user/fetch')
+                const data = res.data
                 setUserData(data)
                 setLoading(false)
             } catch (error) {
-                setLoadingError(true)                
+                setLoadingError(res.error.data)                
                 setLoading(false)
             }
         }
