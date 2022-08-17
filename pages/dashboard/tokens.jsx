@@ -35,30 +35,12 @@ const NavItemText = tw.div`
 
 
 export default function DashboardTokens(props) {
-    const [userData, setUserData] = useState(null)
-    const [isLoading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
-    const [loadingError, setLoadingError] = useState(false)
-
     useEffect(() => {
-        async function fetchUserData() {
-            setLoading(true)
-            try {
-                const res = await fetch('https://raw.githubusercontent.com/Daftscientist/DisHook/main/hi.json');
-                const data = await res.json();
-                setUserData(data)
-                setLoading(false)
-            } catch (error) {
-                setLoadingError(true)                
-                setLoading(false)
-            }
-        }
-        fetchUserData();
+    
     }, []);
 
-    if (isLoading) return <Loading/>
-    if (!userData) return <Loading/>
-    if (loadingError) return <FetchError/>
+    const data = JSON.parse(localStorage.getItem('sessionUser'))
+
     return (
       <section className="bg-gray-900 w-screen h-screen">
         <nav className="w-64 h-full p-2 fixed invisible md:visible" aria-label="Sidebar">
@@ -122,9 +104,13 @@ export default function DashboardTokens(props) {
             </div>
         </nav>
         <main className="flex flex-col flex-1 pl-2 pr-2 w-full  md:pl-64 pt-2">
-            <Nav path="Dashboard → Tokens" page="tokens" avatarImg={userData['avatar']}/>
+            {data.avatar == "None"? (
+                <Nav path="Dashboard → Tokens" page="tokens" avatarImg={"https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}/>
+            ) : (
+                <Nav path="Dashboard → Tokens" page="tokens" avatarImg={data.avatar}/>
+            )}
             <div className="hidden md:block">
-                <StatBoxes/>
+                <StatBoxes userData={data} />
             </div>
             <TokenTable/>
         </main>

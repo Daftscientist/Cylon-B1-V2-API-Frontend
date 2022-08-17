@@ -32,7 +32,10 @@ async function makeRequestff(endpoint) {
 
 const makeRequest = axios.create({
     withCredentials: true,
-    baseURL: 'http://localhost:8000/api'
+    baseURL: 'http://localhost:8000/api',
+    Headers: {
+        Cookie: 'session=eyJ0eXAiOiJKV1QiLCJhbGciOiJIUzUxMiJ9.eyJlIjoibGVvQGtyYWF0YS5jb20iLCJwcyI6IiQyYiQwNCRmajlJMWZlUVUzUS43cmlGWVV5d0dPeG16YnZKUDRlaGxkeG12LzROSFBzVnhrdEhCcUx4bSIsIm0iOiJyYXciLCJpcCI6IjEyNy4wLjAuMSJ9.lWKgD-jasomO-q8f_OIdJzyKF7m33J34ZqHhBpLvN1I29FHi4NDoO6KZpOC9GhUOeLDQosf9MxIRDC8mJx5Ctw;'
+    }
 });
 
 async function makeRequests() {
@@ -41,6 +44,33 @@ async function makeRequests() {
         console.log(res.data)
     } catch(error){
         console.log(error.response.data)
+        console.log(error.response.status)
     }
 }
-makeRequests();
+
+
+async function MakeRequestss() {
+    try {
+        let formData = new FormData();
+        formData.append('email', values.email);
+        formData.append('password', values.password);
+        let res = await makeRequest.post('/user/login', formData);
+        console.log(res.data)
+    } catch (err) {
+        if (err.response) {
+            // The client was given an error response (5xx, 4xx)
+            console.log("if")
+            console.log(err.response.data);
+            console.log(err.response.status);
+            console.log(err.response.headers);
+        } else if (err.request) {
+            // The client never received a response, and the request was never left
+            console.log("elseif")
+        } else {
+            // Anything else
+            console.log("else")
+        }
+    }
+}
+
+MakeRequestss();

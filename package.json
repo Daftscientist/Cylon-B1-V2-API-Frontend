@@ -16,6 +16,7 @@
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-feather": "^2.0.10",
+    "react-hot-toast": "^2.3.0",
     "recharts": "^2.1.12",
     "tailwind-styled-components": "^2.1.8"
   },

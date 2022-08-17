@@ -2,6 +2,10 @@ import { Formik, Field, Form } from 'formik';
 import Router from 'next/router';
 import { useState } from 'react';
 import Link from 'next/link';
+import makeRequest from '../../helpers/requests';
+import errorToast from '../errorToast';
+import SucessToast from '../successToast';
+
 
 export default function SignupForm() {
     const [error, setError] = useState(null);
@@ -21,17 +25,30 @@ export default function SignupForm() {
                 formData.append('password', values.password);
                 formData.append('agreed', values.agreed);
                 formData.append('threads', values.threads);
-                const res = await fetch(`${process.env.BASE_API_ROUTE}user/signup`, { body: formData, method: "post", credentials: "include", });
-                if(res.ok){
+                try {
+                    await makeRequest.post('/user/signup', formData);
+                    const result = await makeRequest.get('user/fetch')
+                    const data = result.data
+                    localStorage.setItem('sessionUser', JSON.stringify(data));
                     Router.push('/dashboard');
-                } else {
-                    // handle error
-                    setError(res.json().ERR.message);
+                    SucessToast("Welcome to cylon " + data.name + "!")
+                } catch (err) {
+                    if (err.response) {
+                        // The client was given an error response (5xx, 4xx)
+                        const errorResponse = err.response.data;
+                        if (errorResponse.ERR) {
+                            errorToast(errorResponse.ERR.message)
+                        }      // API err
+                        if (errorResponse.detail) {
+                            errorToast(errorResponse.detail)
+                        }   // request error
+                    } else {
+                        errorToast("An unknown error has occured, please try again.")
+                    }
                 }
             }}
         >
             <Form className="space-y-4 md:space-y-6">
-            {error}
                 <label htmlFor="email" className="block mb-2 text-sm font-medium text-white">Email Address</label>
                 <Field id="email" required className="border sm:text-sm rounded-lg focus:ring-primary-600 focus:border-primary-600 block w-full p-2.5 bg-gray-700 border-gray-600 placeholder-gray-400 text-white focus:ring-blue-500 focus:border-blue-500" name="email" placeholder="email" />
 

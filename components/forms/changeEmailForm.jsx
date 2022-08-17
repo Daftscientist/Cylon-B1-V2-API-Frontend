@@ -1,22 +1,50 @@
 import { Formik, Field, Form } from 'formik';
+import makeRequest from '../../helpers/requests';
+import errorToast from '../errorToast';
+import SucessToast from '../successToast';
+import { useState } from 'react';
 
-export default function ChangeEmailForm() {
+export default function ChangeEmailForm(props) {
+    const [emailPrefil, setEmailPrefil] = useState(props.userData['email']);
     return (
         <>
             <Formik initialValues={{ currentEmail: '', newEmail: '',}}
-                onSubmit={(values, actions) => {
-                    const submittedContent = JSON.stringify(values, null, 2);
-                    alert(submittedContent);
+                onSubmit={async (values, {resetForm}) => {
+                    let formData = new FormData();
+                    formData.append('new_email', values.newEmail);
+                    formData.append('prev_email', values.currentEmail);
+                    try {
+                        await makeRequest.patch('/user/edit', formData);
+                        const userInfo = JSON.parse(localStorage.getItem('sessionUser'))
+                        userInfo['email'] = values.newEmail;
+                        localStorage.setItem('sessionUser', JSON.stringify(userInfo));
+                        SucessToast('Email changed successfully');
+                        setEmailPrefil(values.newEmail);
+                        resetForm();
+                    } catch (err) {
+                        if (err.response) {
+                            // The client was given an error response (5xx, 4xx)
+                            const errorResponse = err.response.data;
+                            if (errorResponse.ERR) {
+                                errorToast(errorResponse.ERR.message)
+                            }      // API err
+                            if (errorResponse.detail) {
+                                errorToast(errorResponse.detail)
+                            }   // request error
+                        } else {
+                            errorToast("An unknown error has occured, please try again.")
+                        }
+                    }
                 }}
             >
                 <Form>
                     <div className="mb-6">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">Current Email</label>
-                        <Field type="email" id="currentEmail" name="currentEmail" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@example.com" required />
+                        <Field type="email" id="currentEmail" name="currentEmail" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder={emailPrefil} required />
                     </div>
                     <div className="mb-6">
                         <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-gray-300">New Email</label>
-                        <Field type="email" id="newEmail" name="newEmail" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" placeholder="name@example.com" required />
+                        <Field type="email" id="newEmail" name="newEmail" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <button type="submit" className="text-white bg-blue-700 hover:bg-blue-800 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm w-full sm:w-auto px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800">Submit</button>
                 </Form>

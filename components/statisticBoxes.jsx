@@ -1,5 +1,6 @@
 import tw from "tailwind-styled-components"
 import { Wifi, UploadCloud, Upload, Key } from 'react-feather';
+import { data } from "autoprefixer";
 
 const StatisticBoxOuter = tw.div`
     w-full md:w-1/4 flex
@@ -18,7 +19,7 @@ const StatisticBoxIcon = tw.div`
     fill-current text-white
 `
 
-export default function StatBoxes() {
+export default function StatBoxes(props) {
  return (
     <div className="flex flex-wrap w-page">
         <StatisticBoxOuter className="md:pr-2">
@@ -26,8 +27,8 @@ export default function StatBoxes() {
                 <StatisticBoxIconContainer style={{backgroundColor: '#4299e1'}}>
                     <StatisticBoxIcon><Wifi style={{fontSize: '2em'}}/></StatisticBoxIcon>
                 </StatisticBoxIconContainer>
-                <h2 className="text-white">Restricted IPs</h2>
-                <h2 className="text-lg text-white">0/5</h2>
+                <h2 className="text-white">Availible Tokens</h2>
+                <h2 className="text-lg text-white">{props.userData.pd.creatable}</h2>
             </StatisticBoxInner>
         </StatisticBoxOuter>
         <StatisticBoxOuter className="md:pr-2">
@@ -36,7 +37,7 @@ export default function StatBoxes() {
                     <StatisticBoxIcon><UploadCloud style={{fontSize: '2em'}}/></StatisticBoxIcon>
                 </StatisticBoxIconContainer>
                 <h2 className="text-white">Today's Requests</h2>
-                <h2 className="text-lg text-white">0/250</h2>
+                <h2 className="text-lg text-white">{props.userData.pd.requests}</h2>
             </StatisticBoxInner>
         </StatisticBoxOuter>
         <StatisticBoxOuter className="md:pr-2">

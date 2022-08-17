@@ -3,6 +3,7 @@ import Head from 'next/head';
 import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Loading from '../components/Loading';
+import { Toaster } from 'react-hot-toast';
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
@@ -13,13 +14,16 @@ function MyApp({ Component, pageProps }) {
     const publicPaths = ['/', '/login', '/register'];
     const path = url.split('?')[0];
 
-    const res = await fetch(`${process.env.BASE_API_ROUTE}user/fetch`, { method: "get", credentials: "include"});
-    const data = await res.json();
-    if (publicPaths.includes(path) || res.ok) {
-      setAuthorized(true);
+    if (path == "/dashboard" || path.startsWith("/dashboard/tokens") || path.startsWith("/dashboard/account")) {
+      if (localStorage.getItem('sessionUser')) {
+        setAuthorized(true);
+      } else {
+        setAuthorized(false);
+        router.push('/login');
+      }
     } else {
-      setAuthorized(false);
-      router.push('/login');
+      setAuthorized(false)
+      return <Component {...pageProps} />
     }
   }
 
@@ -43,16 +47,26 @@ function MyApp({ Component, pageProps }) {
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
+  const Guess = () => {
+    if (router.asPath.split('?')[0] == "/" || router.asPath.split('?')[0] == "/login" || router.asPath.split('?')[0] == "/register") {
+      return <Component {...pageProps}/>
+    }
+    else {
+      return <Loading />
+    }
+  }
+
   return (
     <>
       <Head>
         <title>Cylon.wtf - Home</title>    
       </Head>
+      <div><Toaster position="top-right" reverseOrder={false}/></div>
       {authorized &&
         <Component {...pageProps} />
       }
       {!authorized &&
-        <Loading/>
+        <Guess/>
       }
     </>
   );

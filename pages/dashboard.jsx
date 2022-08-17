@@ -40,31 +40,13 @@ const NavItemText = tw.div`
 `;
 
 export default function Dashboard(props) {
-    const [userData, setUserData] = useState(null)
-    const [isLoading, setLoading] = useState(false)
-    const [error, setError] = useState(null)
-    const [loadingError, setLoadingError] = useState(false)
-
     useEffect(() => {
-        setLoading(true)
-        const result = fetchUserData();
-        if (!result.error) {
-            setUserData(result.data)
-            setLoading(false)
-        } else {
-            setLoadingError(result.error)
-            setLoading(false)
-        }
+    
     }, []);
 
-    if (isLoading) return <Loading/>
-    if (!userData) return <Loading/>
-    if (loadingError) return <FetchError/>
-
+    const data = JSON.parse(localStorage.getItem('sessionUser'))
     return (
       <section className="bg-gray-900 w-screen h-screen">
-        {JSON.stringify(userData)}
-        {props.test == "test"}
         <nav className="w-64 h-full p-2 fixed invisible md:visible" aria-label="Sidebar">
             <div className="py-4 h-full px-3 rounded-md bg-gray-800">
                 <div className="text-white font-bold text-xl text-center pb-2">
@@ -126,7 +108,12 @@ export default function Dashboard(props) {
             </div>
         </nav>
         <main className="flex flex-col flex-1 pl-2 pr-2 w-full  md:pl-64 pt-2">
-            <StatBoxes/>
+            {data.avatar == "None"? (
+                <Nav path="Dashboard" page="dashboard" avatarImg={"https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}/>
+            ) : (
+                <Nav path="Dashboard" page="dashboard" avatarImg={data.avatar}/>
+            )}
+            <StatBoxes userData={data} />
             <TokenTable/>
             <div className="flex flex-wrap w-page">
                 <Box outerCss="md:pr-2 md:w-1/3" title="Requests This Week">

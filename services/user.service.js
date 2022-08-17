@@ -1,3 +1,5 @@
+import makeRequest from '../helpers/requests.js'
+
 async function fetchUserData() {
     try {
         const res = await makeRequest.get('user/fetch')

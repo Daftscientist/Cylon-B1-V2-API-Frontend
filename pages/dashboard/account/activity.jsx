@@ -34,28 +34,11 @@ const NavItemText = tw.div`
 `;
 
 export default function AccountActivity() {
-    const [userData, setUserData] = useState(null)
-    const [isLoading, setLoading] = useState(false)
-
     useEffect(() => {
-        async function fetchUserData() {
-            setLoading(true)
-            try {
-                const res = await fetch('https://raw.githubusercontent.com/Daftscientist/DisHook/main/hi.json');
-                const data = await res.json();
-                setUserData(data)
-                setLoading(false)
-            } catch (error) {
-                setUserData("FatalErrorInFetchingData")
-                setLoading(false)
-            }
-        }
-        fetchUserData();
-      }, []);
+    
+    }, []);
 
-    if (isLoading) return <Loading/>
-    if (!userData) return <Loading/>
-    if (userData == "FatalErrorInFetchingData") return <FetchError/>
+    const data = JSON.parse(localStorage.getItem('sessionUser'))
 
     return (
       <section className="bg-gray-900 w-screen h-screen">
@@ -120,9 +103,13 @@ export default function AccountActivity() {
             </div>
         </nav>
         <main className="flex flex-col flex-1 pl-2 pr-2 w-full  md:pl-64 pt-2">
-            <Nav path="Dashboard → Account → Activity" page="activity" avatarImg={userData['avatar']}/>
+            {data.avatar == "None"? (
+                <Nav path="Dashboard → Account → Activity" page="activity" avatarImg={"https://t4.ftcdn.net/jpg/00/64/67/63/360_F_64676383_LdbmhiNM6Ypzb3FM4PPuFP9rHe7ri8Ju.jpg"}/>
+            ) : (
+                <Nav path="Dashboard → Account → Activity" page="activity" avatarImg={data.avatar}/>
+            )}
             <div className="hidden md:block">
-                <StatBoxes/>
+            <StatBoxes userData={data} />
             </div>
             <AuditTable/>
         </main>
