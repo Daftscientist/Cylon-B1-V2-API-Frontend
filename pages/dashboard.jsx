@@ -12,7 +12,6 @@ import { useState, useEffect } from "react"
 import Loading from "../components/Loading.jsx";
 import FetchError from "../components/fetchError.jsx";
 import makeRequest from '../helpers/requests.js'
-import fetchUserData from '../services/user.service.js'
 
 const NavItem = tw.div`
     flex items-center p-2 
