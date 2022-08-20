@@ -27,7 +27,7 @@ export default function SignupForm() {
                 formData.append('threads', values.threads);
                 try {
                     await makeRequest.post('/user/signup', formData);
-                    const result = await makeRequest.get('user/fetch')
+                    const result = await makeRequest.get('/user/')
                     const data = result.data
                     localStorage.setItem('sessionUser', JSON.stringify(data));
                     Router.push('/dashboard');

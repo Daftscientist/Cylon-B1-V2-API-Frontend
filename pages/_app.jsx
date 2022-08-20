@@ -48,7 +48,7 @@ function MyApp({ Component, pageProps }) {
   }, []);
 
   const Guess = () => {
-    if (router.asPath.split('?')[0] == "/" || router.asPath.split('?')[0] == "/login" || router.asPath.split('?')[0] == "/register") {
+    if (router.asPath.split('?')[0] == "/" || router.asPath.split('?')[0] == "/login" || router.asPath.split('?')[0] == "/register" || router.asPath.split('?')[0] == "/logout" || router.asPath.split('?')[0] == "/test") {
       return <Component {...pageProps}/>
     }
     else {

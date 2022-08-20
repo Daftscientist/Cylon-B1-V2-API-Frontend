@@ -26,7 +26,7 @@ export default function SignupForm(props) {
                 formData.append('password', values.password);
                 try {
                     await makeRequest.post('/user/login', formData);
-                    const result = await makeRequest.get('user/fetch')
+                    const result = await makeRequest.get('/user/')
                     const data = result.data
                     localStorage.setItem('sessionUser', JSON.stringify(data));
                     Router.push('/dashboard');

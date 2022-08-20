@@ -9,6 +9,6 @@ module.exports = {
     domains: [],
   },
   env: {
-    BASE_API_ROUTE: "http://localhost:8000/api/",
+    BASE_API_ROUTE: "http://localhost:8000/api",
   },
 }

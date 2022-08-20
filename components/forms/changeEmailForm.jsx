@@ -3,6 +3,7 @@ import makeRequest from '../../helpers/requests';
 import errorToast from '../errorToast';
 import SucessToast from '../successToast';
 import { useState } from 'react';
+import { HandleAxiosError } from '../../helpers/errors';
 
 export default function ChangeEmailForm(props) {
     const [emailPrefil, setEmailPrefil] = useState(props.userData['email']);
@@ -10,11 +11,9 @@ export default function ChangeEmailForm(props) {
         <>
             <Formik initialValues={{ currentEmail: '', newEmail: '',}}
                 onSubmit={async (values, {resetForm}) => {
-                    let formData = new FormData();
-                    formData.append('new_email', values.newEmail);
-                    formData.append('prev_email', values.currentEmail);
+                    const requestData = {'new_email': values.newEmail, 'previous_email': values.currentEmail}
                     try {
-                        await makeRequest.patch('/user/edit', formData);
+                        await makeRequest.patch('/user/', requestData);
                         const userInfo = JSON.parse(localStorage.getItem('sessionUser'))
                         userInfo['email'] = values.newEmail;
                         localStorage.setItem('sessionUser', JSON.stringify(userInfo));
@@ -22,18 +21,7 @@ export default function ChangeEmailForm(props) {
                         setEmailPrefil(values.newEmail);
                         resetForm();
                     } catch (err) {
-                        if (err.response) {
-                            // The client was given an error response (5xx, 4xx)
-                            const errorResponse = err.response.data;
-                            if (errorResponse.ERR) {
-                                errorToast(errorResponse.ERR.message)
-                            }      // API err
-                            if (errorResponse.detail) {
-                                errorToast(errorResponse.detail)
-                            }   // request error
-                        } else {
-                            errorToast("An unknown error has occured, please try again.")
-                        }
+                        HandleAxiosError(err);
                     }
                 }}
             >
