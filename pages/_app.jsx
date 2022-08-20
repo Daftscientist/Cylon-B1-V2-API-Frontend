@@ -4,12 +4,14 @@ import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 import Loading from '../components/Loading';
 import { Toaster } from 'react-hot-toast';
+import Sidebar from "../components/navigation/sidebar.jsx";
+import getRestrictedPages from "../components/navigation/activeOrNot";
 
 function MyApp({ Component, pageProps }) {
   const router = useRouter();
   const [authorized, setAuthorized] = useState(false);
 
-  async function authCheck(url) {
+  async function authCheck(url, setAuthorized) {
     // redirect to login page if accessing a private page and not logged in 
     const publicPaths = ['/', '/login', '/register'];
     const path = url.split('?')[0];
@@ -25,7 +27,7 @@ function MyApp({ Component, pageProps }) {
       setAuthorized(false)
       return <Component {...pageProps} />
     }
-  }
+}
 
   useEffect(() => {
     // on initial load - run auth check 
@@ -45,10 +47,10 @@ function MyApp({ Component, pageProps }) {
     }
 
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+}, []);
 
-  const Guess = () => {
-    if (router.asPath.split('?')[0] == "/" || router.asPath.split('?')[0] == "/login" || router.asPath.split('?')[0] == "/register" || router.asPath.split('?')[0] == "/logout" || router.asPath.split('?')[0] == "/test") {
+  const ChildData = () => {
+    if (router.asPath.split('?')[0] in getRestrictedPages()) {
       return <Component {...pageProps}/>
     }
     else {
@@ -58,16 +60,8 @@ function MyApp({ Component, pageProps }) {
 
   return (
     <>
-      <Head>
-        <title>Cylon.wtf - Home</title>    
-      </Head>
-      <div><Toaster position="top-right" reverseOrder={false}/></div>
-      {authorized &&
-        <Component {...pageProps} />
-      }
-      {!authorized &&
-        <Guess/>
-      }
+      <Toaster position="top-right" reverseOrder={false}/>      
+      <ChildData/>
     </>
   );
 };

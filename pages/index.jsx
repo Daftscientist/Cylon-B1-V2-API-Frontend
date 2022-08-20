@@ -5,10 +5,11 @@ import CylonLogo from '../public/cylon-logo-icon.png'
 import SignupForm from '../components/forms/signupForm'
 
 
+
 export default function Home() {
   return (
     <>
-    hi
+    lmfao
     </>
   )
 }
