@@ -9,8 +9,6 @@ import { HandleAxiosError } from '../../helpers/errors';
 
 
 export default function SignupForm() {
-    const [error, setError] = useState(null);
-
     return (
         <Formik
             initialValues={{
