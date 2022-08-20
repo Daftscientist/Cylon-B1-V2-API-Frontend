@@ -16,6 +16,7 @@ export default function ChangePasswordForm() {
                         setButtonLoading(false);
                     } catch (err) {
                         ErrorToast(HandleAxiosError(err));
+                        setButtonLoading(false);
                     }
                 }}
             >
