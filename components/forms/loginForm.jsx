@@ -5,6 +5,8 @@ import Link from 'next/link';
 import makeRequest from '../../helpers/requests';
 import errorToast from '../errorToast';
 import SucessToast from '../successToast';
+import { HandleAxiosError } from '../../helpers/errors';
+import ErrorToast from '../errorToast';
 
 
 
@@ -32,18 +34,8 @@ export default function SignupForm(props) {
                     Router.push('/dashboard');
                     SucessToast("Welcome back " + data.name)
                 } catch (err) {
-                    if (err.response) {
-                        // The client was given an error response (5xx, 4xx)
-                        const errorResponse = err.response.data;
-                        if (errorResponse.ERR) {
-                            errorToast(errorResponse.ERR.message)
-                        }      // API err
-                        if (errorResponse.detail) {
-                            errorToast(errorResponse.detail)
-                        }   // request error
-                    } else {
-                        errorToast("An unknown error has occured, please try again.")
-                    }
+                    console.log(err.response.data)
+                    ErrorToast(HandleAxiosError(err))
                 }
             }}
         >

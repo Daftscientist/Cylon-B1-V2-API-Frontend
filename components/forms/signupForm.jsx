@@ -3,8 +3,9 @@ import Router from 'next/router';
 import { useState } from 'react';
 import Link from 'next/link';
 import makeRequest from '../../helpers/requests';
-import errorToast from '../errorToast';
 import SucessToast from '../successToast';
+import ErrorToast from '../errorToast';
+import { HandleAxiosError } from '../../helpers/errors';
 
 
 export default function SignupForm() {
@@ -33,18 +34,7 @@ export default function SignupForm() {
                     Router.push('/dashboard');
                     SucessToast("Welcome to cylon " + data.name + "!")
                 } catch (err) {
-                    if (err.response) {
-                        // The client was given an error response (5xx, 4xx)
-                        const errorResponse = err.response.data;
-                        if (errorResponse.ERR) {
-                            errorToast(errorResponse.ERR.message)
-                        }      // API err
-                        if (errorResponse.detail) {
-                            errorToast(errorResponse.detail)
-                        }   // request error
-                    } else {
-                        errorToast("An unknown error has occured, please try again.")
-                    }
+                    ErrorToast(HandleAxiosError(err))
                 }
             }}
         >
