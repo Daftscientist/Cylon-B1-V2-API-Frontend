@@ -6,6 +6,7 @@ import SidebarItem from "./navigation/sidebarItem";
 import ActiveOrNot from "./navigation/activeOrNot";
 import { useRouter } from "next/router";
 import GetTextPath from "./navigation/textPath";
+import Breadcrumb from "./breadcrumb";
 
 export default function Nav(props) {
     const [isActive, setActive] = useState(true);

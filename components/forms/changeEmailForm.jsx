@@ -7,7 +7,8 @@ import { HandleAxiosError } from '../../helpers/errors';
 import ErrorToast from '../errorToast';
 
 export default function ChangeEmailForm(props) {
-    const [emailPrefil, setEmailPrefil] = useState(props.userData['email']);
+    console.log(props.userData.email)
+    const [emailPrefil, setEmailPrefil] = useState(props.userData.email);
     const [buttonLoading, setButtonLoading] = useState(false);
     return (
         <>
