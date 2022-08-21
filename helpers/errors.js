@@ -1,20 +1,27 @@
 import ErrorToast from "../components/errorToast";
 
-export function HandleAxiosError(err) {
-    if (err.response) {
+export default function HandleAxiosError(err) {
+    try {
         const errorResponse = err.response.data;
-        if ("error" in errorResponse) {
-            let errors = [];
-            for (let data of errorResponse.errors) {
-                for (const [key, value] of Object.entries(data)) {
-                    errors.push(key + " " + value)
+        const toastHeader = errorResponse["detail"];
+        console.log(errorResponse);
+
+        if ("errors" in errorResponse) {
+            errorResponse["errors"].forEach(
+                (error) => {
+                    ErrorToast(error);
+                    console.log(error);
                 }
-            }
-            return JSON.stringify(errors)
-        } else {
-            return errorResponse.detail;
+            );
         }
-    } else {
-        return "An unknown error has occured, please try again."
+        else {
+            ErrorToast(toastHeader);
+        }
+    } catch {
+        try {
+            ErrorToast(err.response.data.details);
+        } catch {
+            ErrorToast("Something went wrong, please try again later.");
+        }
     }
 }

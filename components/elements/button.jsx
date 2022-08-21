@@ -1,6 +1,6 @@
 import tw from "tailwind-styled-components"
 
-const ButtonBlue = tw.button`
+export const ButtonBlue = tw.button`
     text-white bg-blue-700 
     hover:bg-blue-800 focus:ring-4 
     focus:outline-none focus:ring-blue-300 
@@ -13,5 +13,3 @@ const ButtonBlue = tw.button`
 
 const ButtonRed = tw.button`
 `
-
-export default ButtonBlue;

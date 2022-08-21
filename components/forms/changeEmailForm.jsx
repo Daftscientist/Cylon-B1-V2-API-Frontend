@@ -1,16 +1,19 @@
 import { Formik, Field, Form } from 'formik';
 import makeRequest from '../../helpers/requests';
-import errorToast from '../errorToast';
 import SucessToast from '../successToast';
-import { useState } from 'react';
-import { HandleAxiosError } from '../../helpers/errors';
-import ErrorToast from '../errorToast';
-import ButtonBlue from '../elements/button';
+import { useState, useEffect } from 'react';
+import HandleAxiosError from '../../helpers/errors';
+import { ButtonBlue } from '../elements/button';
+import LoadingInner from '../elements/LoadingInner';
 
 export default function ChangeEmailForm(props) {
-    const [emailPrefil, setEmailPrefil] = useState(props.userData.email);
+    const [emailPrefil, setEmailPrefil] = useState("Loading...");
     const [buttonLoading, setButtonLoading] = useState(false);
 
+
+    useEffect(() => {
+        setEmailPrefil(JSON.parse(localStorage.getItem('sessionUser')).email);
+    }, []);
     
 
     const loadingInner = (
@@ -39,7 +42,7 @@ export default function ChangeEmailForm(props) {
                         resetForm();
                         setButtonLoading(false);
                     } catch (err) {
-                        ErrorToast(HandleAxiosError(err));
+                        HandleAxiosError(err)
                         setButtonLoading(false);
                     }
                 }}
@@ -54,7 +57,7 @@ export default function ChangeEmailForm(props) {
                         <Field type="email" id="newEmail" name="newEmail" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-gray-700 dark:border-gray-600 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500" required />
                     </div>
                     <ButtonBlue type='submit'>
-                        {buttonLoading ? loadingInner : 'Submit'}
+                        {buttonLoading ? <LoadingInner/> : 'Submit'}
                     </ButtonBlue>
                     </Form>
             </Formik>

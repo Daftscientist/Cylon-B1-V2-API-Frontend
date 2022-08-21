@@ -5,7 +5,7 @@ import Link from 'next/link';
 import makeRequest from '../../helpers/requests';
 import SucessToast from '../successToast';
 import ErrorToast from '../errorToast';
-import { HandleAxiosError } from '../../helpers/errors';
+import HandleAxiosError from '../../helpers/errors';
 
 
 export default function SignupForm() {
@@ -19,11 +19,7 @@ export default function SignupForm() {
             }}
 
             onSubmit={async (values, actions) => {
-                let formData = new FormData();
-                formData.append('email', values.email);
-                formData.append('password', values.password);
-                formData.append('agreed', values.agreed);
-                formData.append('threads', values.threads);
+                const formData = {'email': values.email, 'password': values.password, 'agreed': values.agreed, 'threads': values.threads};
                 try {
                     await makeRequest.post('/user/signup', formData);
                     const result = await makeRequest.get('/user/')
@@ -32,7 +28,7 @@ export default function SignupForm() {
                     Router.push('/dashboard');
                     SucessToast("Welcome to cylon " + data.name + "!")
                 } catch (err) {
-                    ErrorToast(HandleAxiosError(err))
+                    HandleAxiosError(err)
                 }
             }}
         >

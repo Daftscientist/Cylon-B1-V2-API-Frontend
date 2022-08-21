@@ -25,7 +25,7 @@ export default function Account(props) {
                     <ChangeEmailForm userData={data}/>
                 </Box>
                 <Box outerCss="md:w-1/2" title="Modify Password">
-                    <ChangePasswordForm/>
+                    <ChangePasswordForm userData={data}/>
                 </Box>
             </div>
             <div className="flex flex-wrap w-page">
