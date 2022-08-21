@@ -39,6 +39,7 @@ export default function DashboardTokens(props) {
 
     useEffect(function () {
         setData(JSON.parse(localStorage.getItem('sessionUser')))
+        console.log(data)
     }, [])
 
     return (

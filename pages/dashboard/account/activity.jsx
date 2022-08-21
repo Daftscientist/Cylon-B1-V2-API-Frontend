@@ -7,6 +7,7 @@ export default function AccountActivity() {
 
     useEffect(function () {
         setData(JSON.parse(localStorage.getItem('sessionUser')))
+        console.log(data)
     }, [])
 
     return (

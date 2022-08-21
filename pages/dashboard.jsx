@@ -9,7 +9,9 @@ export default function Dashboard(props) {
 
     useEffect(function () {
         setData(JSON.parse(localStorage.getItem('sessionUser')))
+        console.log(data)
     }, [])
+
     return (
         <>
             <StatBoxes userData={data} />
