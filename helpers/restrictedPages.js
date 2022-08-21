@@ -39,12 +39,3 @@ export async function effect(){
         // eslint-disable-next-line react-hooks/exhaustive-deps
     }, []);
 }
-
-export function getRestrictedPages() {
-    let restrictedPages = [];
-
-    for (var key in pages){
-        restrictedPages.push(pages[key])
-    };
-    return restrictedPages;
-}

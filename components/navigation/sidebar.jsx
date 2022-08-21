@@ -1,12 +1,10 @@
-import tw from "tailwind-styled-components"
 import SidebarItem from "./sidebarItem"
 import { Home, User, BarChart2, ShoppingCart, Key, Activity } from 'react-feather';
 import ActiveOrNot from "./activeOrNot";
 import { useRouter } from 'next/router'
 
-export default function Sidebar( {children} ) {
+export default function Sidebar( { children } ) {
     const router = useRouter()
-
     const path = router.pathname
 
     return (

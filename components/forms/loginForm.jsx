@@ -23,18 +23,15 @@ export default function SignupForm(props) {
             }}
 
             onSubmit={async (values, actions) => {
-                let formData = new FormData();
-                formData.append('email', values.email);
-                formData.append('password', values.password);
+                const responseData = {'email': values.email, 'password': values.password};
                 try {
-                    await makeRequest.post('/user/login', formData);
+                    await makeRequest.post('/user/login', responseData);
                     const result = await makeRequest.get('/user/')
                     const data = result.data
                     localStorage.setItem('sessionUser', JSON.stringify(data));
                     Router.push('/dashboard');
                     SucessToast("Welcome back " + data.name)
                 } catch (err) {
-                    console.log(err.response.data)
                     ErrorToast(HandleAxiosError(err))
                 }
             }}

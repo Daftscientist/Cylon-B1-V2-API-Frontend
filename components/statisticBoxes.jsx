@@ -28,7 +28,7 @@ export default function StatBoxes(props) {
                     <StatisticBoxIcon><Wifi style={{fontSize: '2em'}}/></StatisticBoxIcon>
                 </StatisticBoxIconContainer>
                 <h2 className="text-white">Availible Tokens</h2>
-                <h2 className="text-lg text-white">{props.userData.pd.creatable}</h2>
+                <h2 className="text-lg text-white"></h2>
             </StatisticBoxInner>
         </StatisticBoxOuter>
         <StatisticBoxOuter className="md:pr-2">
@@ -37,7 +37,7 @@ export default function StatBoxes(props) {
                     <StatisticBoxIcon><UploadCloud style={{fontSize: '2em'}}/></StatisticBoxIcon>
                 </StatisticBoxIconContainer>
                 <h2 className="text-white">Today's Requests</h2>
-                <h2 className="text-lg text-white">{props.userData.pd.requests}</h2>
+                <h2 className="text-lg text-white"></h2>
             </StatisticBoxInner>
         </StatisticBoxOuter>
         <StatisticBoxOuter className="md:pr-2">

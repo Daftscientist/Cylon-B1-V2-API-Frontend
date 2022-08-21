@@ -1,4 +1,5 @@
 import tw from "tailwind-styled-components"
+import Link from "next/link";
 
 export default function SidebarItem( props ) {
     const NavItem = tw.div`
