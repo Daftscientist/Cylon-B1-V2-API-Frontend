@@ -1,7 +1,3 @@
-Based on the information from the repository and the context provided, here is an updated `README.md` for your project, Cylon:
-
----
-
 # Cylon
 
 Cylon is a powerful and user-friendly web UI dashboard designed for an API that specializes in image generation and manipulation. Built with React.js, Axios, and TailwindCSS, Cylon provides an intuitive interface for managing API tokens, tracking usage, and more.
