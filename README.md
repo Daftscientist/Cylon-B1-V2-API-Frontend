@@ -12,10 +12,10 @@ Cylon is a powerful and user-friendly web UI dashboard designed for an API that 
   ![Dashboard Overview](images/dashboard.png)
 
 - **Account Management**: Easily update your account details, change your password, or request account deletion.
-  ![Manage Account](images/manage_account.png)
+  ![Manage Account](images/manage.webp)
 
 - **Authentication**: Secure login interface to protect your account and API access.
-  ![Login Screen](images/login.png)
+  ![Login Screen](images/login.webp)
 
 ## Technologies Used
 
